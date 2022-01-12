@@ -17,7 +17,7 @@ public class Comment {
 	@Id
 	@GeneratedValue
 	private Long id;//ID
-	private String nickName;//昵称
+	private String nickname;//昵称
 	private String email;//邮箱
 	private String content;//评论内容
 	private String avatar;//头像
@@ -61,17 +61,19 @@ public class Comment {
 		this.blog = blog;
 	}
 
-	public Long getId() {
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
-	}
-	public String getNickName() {
-		return nickName;
-	}
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
 	}
 	public String getEmail() {
 		return email;
@@ -97,16 +99,19 @@ public class Comment {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	
-	@Override
-	public String toString() {
-		return "Comment{" +
-				"id=" + id +
-				", nickName='" + nickName + '\'' +
-				", email='" + email + '\'' +
-				", content=" + content + '\'' +
-				", avatar=" + avatar + '\'' +
-				", createTime=" + createTime +
-				'}';
-	}
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", nickname='" + nickname + '\'' +
+                ", email='" + email + '\'' +
+                ", content='" + content + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", createTime=" + createTime +
+                ", blog=" + blog +
+                ", replyComments=" + replyComments +
+                ", parentComment=" + parentComment +
+                '}';
+    }
 }
