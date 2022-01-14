@@ -129,10 +129,13 @@
                             <h3 class="ui dividing header">评论</h3>
                             <div class="comment" th:each="comment : ${comments}">
                                 <a class="avatar"> <img
-                                        src="https://picsum.photos/id/1015/800/450" th:src="@{/static/images/avatar.png}">
+                                        src="https://picsum.photos/id/1015/800/450" th:src="@{${comment.avatar}}">
                                 </a>
                                 <div class="content">
-                                    <a class="author" th:text="${comment.nickname}">Matt</a>
+                                    <a class="author">
+                                        <span th:text="${comment.nickname}">Matt</span>
+                                        <div class="ui mini basic teal left pointing label m-padded-mini" th:if="${comment.adminComment}">博主</div>
+                                    </a>
                                     <div class="metadata">
                                         <span class="date" th:text="${#dates.format(comment.createTime, 'yyyy-MM-dd HH:mm')}">今天下午 5:42</span>
                                     </div>
@@ -144,12 +147,13 @@
                                 <div class="comments" th:if="${#arrays.length(comment.replyComments)}>0">
                                     <div class="comment" th:each="reply : ${comment.replyComments}">
                                         <a class="avatar"> <img
-                                                src="https://picsum.photos/id/1015/800/450" th:src="@{/static/images/avatar.png}">
+                                                src="https://picsum.photos/id/1015/800/450" th:src="@{${reply.avatar}}">
                                         </a>
                                         <div class="content">
                                             <a class="author">
-                                                <span th:text="${reply.nickname}">小红</span>&nbsp;
-                                                <span th:text="|@ ${reply.parentComment.nickname}|" class="m-teal">@ 小白</span>
+                                                <span th:text="${reply.nickname}">小红</span>
+                                                <div class="ui mini basic teal left pointing label m-padded-mini" th:if="${reply.adminComment}">博主</div>
+                                                &nbsp;<span th:text="|@ ${reply.parentComment.nickname}|" class="m-teal">@ 小白</span>
                                             </a>
                                             <div class="metadata">
                                                 <span class="date" th:text="${#dates.format(reply.createTime, 'yyyy-MM-dd HH:mm')}">今天下午 5:42</span>
@@ -176,13 +180,13 @@
 						<div class="field m-mobile-wide m-margin-botton-small">
 							<div class="ui left icon input">
 								<i class="user icon"></i> <input type="text" name="nickname"
-									placeholder="姓名" />
+									placeholder="姓名" th:value="${session.user} != null ? ${session.user.nickname}"/>
 							</div>
 						</div>
 						<div class="field m-mobile-wide m-margin-botton-small">
 							<div class="ui left icon input">
 								<i class="mail icon"></i> <input type="text" name="email"
-									placeholder="邮箱" />
+									placeholder="邮箱" th:value="${session.user} != null ? ${session.user.email}"/>
 							</div>
 						</div>
 						<div class="field m-mobile-wide m-margin-botton-small">
@@ -367,7 +371,7 @@ $(function() {
             "email": $("[name='email']").val(),
             "content": $("[name='content']").val()
         }, function(responseTxt, statusTxt, xhr) {
-            $(window).scrollTo($("#comment-container"), 500);
+//            $(window).scrollTo($("#comment-container"), 500);
             clearContent();
         });
     }

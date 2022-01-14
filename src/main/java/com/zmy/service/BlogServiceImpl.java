@@ -16,12 +16,12 @@ import org.springframework.stereotype.Service;
 import com.zmy.NotFoundException;
 import com.zmy.dao.BlogRepository;
 import com.zmy.pojo.Blog;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,6 +37,7 @@ public class BlogServiceImpl implements BlogService {
 		return blogRepository.findOne(id);
 	}
 
+	@Transactional
     @Override
     public Blog getAndConvert(Long id) {
 	    Blog blog = blogRepository.findOne(id);
@@ -47,6 +48,7 @@ public class BlogServiceImpl implements BlogService {
 	    BeanUtils.copyProperties(blog, b);
         String content = b.getContent();
         b.setContent(MarkdownUtils.markdownToHtmlExtensions(content));
+        blogRepository.updateViews(id);
         return b;
     }
 
