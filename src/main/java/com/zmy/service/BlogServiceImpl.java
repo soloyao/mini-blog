@@ -81,7 +81,7 @@ public class BlogServiceImpl implements BlogService {
             @Override
             public Predicate toPredicate(Root<Blog> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 Join join = root.join("tags");
-                return null;
+                return cb.equal(join.get("id"), tagId);
             }
         }, pageable);
     }

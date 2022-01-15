@@ -3,7 +3,6 @@ package com.zmy.web;
 import com.zmy.pojo.Tag;
 import com.zmy.service.BlogService;
 import com.zmy.service.TagService;
-import com.zmy.vo.BlogQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -38,10 +37,8 @@ public class TagShowController {
         if (id == -1) {
             id = tags.get(0).getId();
         }
-        BlogQuery blogQuery = new BlogQuery();
-//        blogQuery.setTagId(id);
         model.addAttribute("tags", tags);
-        model.addAttribute("page", blogService.listBlog(pageable, blogQuery));
+        model.addAttribute("page", blogService.listBlog(id, pageable));
         model.addAttribute("activeTagId", id);
         return "tags";
     }
